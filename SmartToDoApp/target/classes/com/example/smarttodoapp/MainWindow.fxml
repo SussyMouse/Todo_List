@@ -1,16 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.smarttodoapp.MainController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-  </padding>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-height: 800; -fx-pref-width: 1280; -fx-background-color: linear-gradient(to right, #000000, #737373);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="25.0" style="-fx-pref-width: 250;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView>
+               <image>
+                  <Image url="@../../../images/icon.png" />
+               </image>
+            </ImageView>
+            <Separator prefWidth="200.0" style="-fx-background-color: #d9d9d9;" />
+            <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 180; -fx-pref-height: 40; -fx-background-color: linear-gradient(to right, #000000, #3533cd);" text="Tasks" textFill="#b4b4b4">
+               <font>
+                  <Font name="Segoe UI" size="31.0" />
+               </font>
+            </Button>
+            <Separator prefWidth="200.0" style="-fx-background-color: #d9d9d9;" />
+            <Label text="Filter by:" textFill="#b4b4b4">
+               <font>
+                  <Font name="Segoe UI" size="24.0" />
+               </font>
+            </Label>
+            <ComboBox prefWidth="150.0" promptText="Category" style="-fx-pref-width: 180;" />
+            <ComboBox prefWidth="150.0" promptText="Priority" style="-fx-pref-width: 180;" />
+            <DatePicker style="-fx-pref-width: 180;" />
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-pref-height: 50;" BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                        <MenuItem mnemonicParsing="false" text="Input file" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" text="Exit" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <HBox alignment="CENTER" prefHeight="63.0" prefWidth="472.0">
+               <children>
+                  <Label text="Smart ToDo Application" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Segoe UI Black" size="44.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Tasks" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Black" size="44.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff); -fx-pref-width: 140; -fx-pref-height: 30;" text="Add Task">
+               <font>
+                  <Font name="Segoe UI" size="20.0" />
+               </font>
+            </Button>
+            <TextField promptText="Search">
+               <font>
+                  <Font name="Segoe UI" size="20.0" />
+               </font>
+            </TextField>
+            <ImageView fitHeight="200.0" fitWidth="193.0" style="-fx-fit-width: 30; -fx-fit-height: 30;">
+               <image>
+                  <Image url="@../../../images/search.png" />
+               </image>
+            </ImageView>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff);" text="Mark as Completed">
+                     <font>
+                        <Font name="Segoe UI" size="20.0" />
+                     </font>
+                  </Button>
+                  <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 580; -fx-pref-height: 400;" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" style="-fx-pref-height: 40;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Priority Level:" textFill="#737373">
+               <font>
+                  <Font name="Segoe UI" size="20.0" />
+               </font>
+            </Label>
+            <Label text="1st:" textFill="#737373">
+               <font>
+                  <Font name="Segoe UI" size="20.0" />
+               </font>
+            </Label>
+            <Circle fill="#ff3131" radius="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label text="2nd:" textFill="#737373">
+               <font>
+                  <Font name="Segoe UI" size="20.0" />
+               </font>
+            </Label>
+            <Circle fill="#ff914d" radius="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label text="3rd:" textFill="#737373">
+               <font>
+                  <Font name="Segoe UI" size="20.0" />
+               </font>
+            </Label>
+            <Circle fill="#004aad" radius="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label text="4th:" textFill="#737373">
+               <font>
+                  <Font name="Segoe UI" size="20.0" />
+               </font>
+            </Label>
+            <Circle fill="#d9d9d9" radius="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
