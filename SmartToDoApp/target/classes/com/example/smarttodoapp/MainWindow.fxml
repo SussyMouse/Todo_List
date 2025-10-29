@@ -112,7 +112,7 @@
                         <Insets right="30.0" />
                      </HBox.margin>
                   </Button>
-                  <ImageView fitHeight="200.0" fitWidth="193.0" scaleX="0.2" scaleY="0.2" scaleZ="0.2" style="-fx-fit-width: 30; -fx-fit-height: 30;">
+                  <ImageView fitHeight="110.0" fitWidth="110.0" scaleX="0.2" scaleY="0.2" scaleZ="0.2" style="-fx-fit-width: 30; -fx-fit-height: 30;">
                      <image>
                         <Image url="@../../../images/search.png" />
                      </image>
