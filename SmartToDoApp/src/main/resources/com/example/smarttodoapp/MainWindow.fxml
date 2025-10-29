@@ -96,12 +96,12 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Tasks" textFill="WHITE">
+                  <Label prefWidth="130.0" text="Tasks" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Black" size="44.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="450.0" />
+                        <Insets right="430.0" />
                      </HBox.margin>
                   </Label>
                   <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff); -fx-pref-width: 140; -fx-pref-height: 30;" text="Add Task">
@@ -112,7 +112,7 @@
                         <Insets right="30.0" />
                      </HBox.margin>
                   </Button>
-                  <ImageView fitHeight="110.0" fitWidth="110.0" scaleX="0.2" scaleY="0.2" scaleZ="0.2" style="-fx-fit-width: 30; -fx-fit-height: 30;">
+                  <ImageView fitHeight="50.0" fitWidth="50.0">
                      <image>
                         <Image url="@../../../images/search.png" />
                      </image>
