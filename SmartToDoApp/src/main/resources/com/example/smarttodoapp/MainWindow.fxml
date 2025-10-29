@@ -14,15 +14,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-pref-height: 800; -fx-pref-width: 1280; -fx-background-color: linear-gradient(to right, #000000, #737373);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="25.0" style="-fx-pref-width: 250;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="805.0" prefWidth="100.0" spacing="25.0" style="-fx-pref-width: 250;" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="125.0" prefWidth="250.0">
                <children>
                   <ImageView scaleX="1.2" scaleY="1.2" scaleZ="1.2" translateX="100.0" translateY="40.0">
                      <image>
@@ -30,27 +31,54 @@
                      </image>
                   </ImageView>
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" style="-fx-pref-width: 180; -fx-pref-height: 40; -fx-background-color: linear-gradient(to right, #000000, #3533cd);" text="Tasks" textFill="#b4b4b4" translateX="70.0" translateY="20.0">
-                     <font>
-                        <Font name="Segoe UI" size="31.0" />
-                     </font>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" style="-fx-pref-width: 180; -fx-pref-height: 40; -fx-background-color: linear-gradient(to right, #000000, #3533cd); -fx-background-radius: 40;" text="Tasks" textFill="#b4b4b4">
+                           <font>
+                              <Font name="Segoe UI" size="31.0" />
+                           </font>
+                        </Button>
+                        <ImageView>
+                           <image>
+                              <Image url="@../../../images/All%20Task%20Logo.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets right="100.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                     </children>
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="50.0" />
                      </HBox.margin>
-                  </Button>
+                  </StackPane>
                </children>
             </HBox>
             <Label text="Filter by:" textFill="#b4b4b4">
                <font>
                   <Font name="Segoe UI" size="24.0" />
                </font>
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin>
             </Label>
-            <ComboBox prefWidth="150.0" promptText="Category" style="-fx-pref-width: 180;" />
-            <ComboBox prefWidth="150.0" promptText="Priority" style="-fx-pref-width: 180;" />
-            <DatePicker style="-fx-pref-width: 180;" />
+            <ComboBox prefWidth="150.0" promptText="Category" style="-fx-pref-width: 180; -fx-background-radius: 5;">
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin></ComboBox>
+            <ComboBox prefWidth="150.0" promptText="Priority" style="-fx-pref-width: 180; -fx-background-radius: 5;">
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin></ComboBox>
+            <DatePicker style="-fx-pref-width: 180; -fx-background-radius: 5;">
+               <VBox.margin>
+                  <Insets left="40.0" />
+               </VBox.margin></DatePicker>
          </children>
       </VBox>
    </left>
@@ -85,26 +113,32 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="63.0" prefWidth="472.0">
+            <HBox alignment="CENTER" prefHeight="150.0" prefWidth="472.0" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff);">
                <children>
-                  <Label alignment="CENTER" prefHeight="63.0" prefWidth="1028.0" text="Smart ToDo Application" textFill="WHITE" wrapText="true">
+                  <Label alignment="TOP_LEFT" prefHeight="66.0" prefWidth="1030.0" text="Smart ToDo Application" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Segoe UI Black" size="44.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="100.0" />
+                     </padding>
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1030.0">
                <children>
                   <Label prefWidth="130.0" text="Tasks" textFill="WHITE">
                      <font>
                         <Font name="Segoe UI Black" size="44.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="430.0" />
+                        <Insets left="75.0" right="350.0" />
                      </HBox.margin>
                   </Label>
-                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff); -fx-pref-width: 140; -fx-pref-height: 30;" text="Add Task">
+                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff); -fx-pref-width: 140; -fx-pref-height: 30; -fx-background-radius: 30;" text="Add Task">
                      <font>
                         <Font name="Segoe UI" size="20.0" />
                      </font>
@@ -117,7 +151,7 @@
                         <Image url="@../../../images/search.png" />
                      </image>
                   </ImageView>
-                  <TextField promptText="Search">
+                  <TextField promptText="Search" style="-fx-background-radius: 5;">
                      <font>
                         <Font name="Segoe UI" size="20.0" />
                      </font>
@@ -126,12 +160,12 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff);" text="Mark as Completed" translateY="35.0">
+                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff); -fx-background-radius: 20;" text="Mark as Completed" translateY="35.0">
                      <font>
                         <Font name="Segoe UI" size="20.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="250.0" />
+                        <Insets left="50.0" right="200.0" />
                      </HBox.margin>
                   </Button>
                   <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 580; -fx-pref-height: 400;" />
@@ -141,7 +175,7 @@
       </VBox>
    </center>
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" style="-fx-pref-height: 40;" BorderPane.alignment="CENTER">
+      <HBox fillHeight="false" prefHeight="100.0" prefWidth="1079.0" spacing="25.0" style="-fx-pref-height: 40;" BorderPane.alignment="BOTTOM_RIGHT">
          <children>
             <Label text="Priority Level:" textFill="#737373" translateX="250.0">
                <font>
