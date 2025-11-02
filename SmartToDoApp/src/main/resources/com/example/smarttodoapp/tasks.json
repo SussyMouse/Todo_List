@@ -1,0 +1,29 @@
+[ {
+  "name" : "workout",
+  "description" : "push up",
+  "category" : "Fitness",
+  "priority" : 3,
+  "dueDate" : "2025-11-02",
+  "completed" : false
+}, {
+  "name" : "read",
+  "description" : "study CMT221",
+  "category" : "Study",
+  "priority" : 1,
+  "dueDate" : "2025-11-03",
+  "completed" : false
+}, {
+  "name" : "bla bla bla",
+  "description" : "bla bla bla bla bla",
+  "category" : "Shopping",
+  "priority" : 4,
+  "dueDate" : "2025-11-05",
+  "completed" : false
+}, {
+  "name" : "gg",
+  "description" : "dadfdf",
+  "category" : "Work",
+  "priority" : 1,
+  "dueDate" : "2025-11-07",
+  "completed" : false
+} ]
