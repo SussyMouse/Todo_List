@@ -1,5 +1,6 @@
 package com.example.smarttodoapp;
 
+import com.example.smarttodoapp.model.CategoryIconProvider;
 import com.example.smarttodoapp.data.TaskStore;
 import com.example.smarttodoapp.model.Task;
 import javafx.collections.ObservableList;
@@ -10,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -27,6 +30,8 @@ public class TaskInfoController {
     private Label taskDescriptionLabel;
     @FXML
     private Label taskCategoryLabel;
+    @FXML
+    private ImageView categoryIconView;
     @FXML
     private Label taskDueDateLabel;
     @FXML
@@ -116,12 +121,28 @@ public class TaskInfoController {
                 .orElse("No additional description."));
         taskCategoryLabel.setText(Optional.ofNullable(task.getCategory()).filter(s -> !s.isBlank())
                 .orElse("No category"));
+        updateCategoryIcon(task.getCategory());
         taskPriorityLabel.setText(Optional.ofNullable(task.getPriority()).map(Object::toString)
                 .orElse("No priority"));
         taskDueDateLabel.setText(task.getDueDate() != null ? DATE_FORMATTER.format(task.getDueDate()) : "No due date");
         taskStatusLabel.setText(task.isCompleted() ? "Completed" : "Active");
 
         markCompleteButton.setText(task.isCompleted() ? "Mark as Incomplete" : "Mark as Completed");
+    }
+
+    private void updateCategoryIcon(String category) {
+        Image icon = CategoryIconProvider.getIconForCategory(category);
+        if (categoryIconView != null) {
+            if (icon != null) {
+                categoryIconView.setImage(icon);
+                categoryIconView.setVisible(true);
+                categoryIconView.setManaged(true);
+            } else {
+                categoryIconView.setImage(null);
+                categoryIconView.setVisible(false);
+                categoryIconView.setManaged(false);
+            }
+        }
     }
 
     private void notifyTaskUpdated() {

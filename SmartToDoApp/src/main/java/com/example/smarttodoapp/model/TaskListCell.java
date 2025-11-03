@@ -1,5 +1,6 @@
 package com.example.smarttodoapp.model;
 
+import com.example.smarttodoapp.model.CategoryIconProvider;
 import com.example.smarttodoapp.TaskFormController;
 import com.example.smarttodoapp.TaskInfoController;
 import com.example.smarttodoapp.data.TaskStore;
@@ -42,6 +43,7 @@ public class TaskListCell extends ListCell<Task> {
     private final Label metaLabel = new Label();
     private final Region spacer = new Region();
     private final HBox actionBox = new HBox(6);
+    private final ImageView categoryIconView = new ImageView();
     private static final Image INFO_ICON = new Image(
             TaskListCell.class.getResource("/images/info.png").toExternalForm());
     private static final Image EDIT_ICON = new Image(
@@ -60,6 +62,7 @@ public class TaskListCell extends ListCell<Task> {
 
         root.getStyleClass().add("task-cell");
         root.setAlignment(Pos.CENTER_LEFT);
+        root.setPadding(new Insets(0, 16, 0, 0));
 
         completeButton.getStyleClass().add("mark-complete-button");
         completeButton.setFocusTraversable(false);
@@ -81,6 +84,13 @@ public class TaskListCell extends ListCell<Task> {
         editButton.getStyleClass().add("task-action-button");
         deleteButton.getStyleClass().addAll("task-action-button", "task-delete-button");
 
+        categoryIconView.setFitWidth(32);
+        categoryIconView.setFitHeight(32);
+        categoryIconView.setPreserveRatio(true);
+        categoryIconView.setSmooth(true);
+        categoryIconView.setVisible(false);
+        categoryIconView.setManaged(false);
+
         infoButton.setGraphic(createIconView(INFO_ICON));
         editButton.setGraphic(createIconView(EDIT_ICON));
         deleteButton.setGraphic(createIconView(DELETE_ICON));
@@ -97,7 +107,7 @@ public class TaskListCell extends ListCell<Task> {
         editButton.setTooltip(new Tooltip("Edit task"));
         deleteButton.setTooltip(new Tooltip("Delete task"));
 
-        actionBox.getChildren().addAll(infoButton, editButton, deleteButton);
+        actionBox.getChildren().addAll(categoryIconView, infoButton, editButton, deleteButton);
 
         HBox.setHgrow(spacer, Priority.ALWAYS);
         HBox.setHgrow(card, Priority.ALWAYS);
@@ -164,6 +174,7 @@ public class TaskListCell extends ListCell<Task> {
 
         updatePriorityStyle(task);
         updateCompletionState(task);
+        updateCategoryIcon(task);
 
         setGraphic(root);
     }
@@ -190,10 +201,23 @@ public class TaskListCell extends ListCell<Task> {
         }
     }
 
+    private void updateCategoryIcon(Task task) {
+        Image icon = CategoryIconProvider.getIconForCategory(task.getCategory());
+        if (icon != null) {
+            categoryIconView.setImage(icon);
+            categoryIconView.setVisible(true);
+            categoryIconView.setManaged(true);
+        } else {
+            categoryIconView.setImage(null);
+            categoryIconView.setVisible(false);
+            categoryIconView.setManaged(false);
+        }
+    }
+
     private ImageView createIconView(Image image) {
         ImageView view = new ImageView(image);
-        view.setFitWidth(18);
-        view.setFitHeight(18);
+        view.setFitWidth(24);
+        view.setFitHeight(24);
         view.setPreserveRatio(true);
         return view;
     }
