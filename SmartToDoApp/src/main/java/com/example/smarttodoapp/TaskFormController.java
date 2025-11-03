@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -31,11 +32,41 @@ public class TaskFormController {
     private Button taskSaveButton;
     @FXML
     private Button taskCancelButton;
+    @FXML
+    private Label formTitleLabel;
 
     private ObservableList<Task> tasks;
+    private Task taskToEdit;
 
     public void setTasks(ObservableList<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public void setTaskToEdit(Task task) {
+        this.taskToEdit = task;
+        if (task == null) {
+            return;
+        }
+
+        formTitleLabel.setText("Edit Task");
+        taskSaveButton.setText("Update");
+
+        taskNameTextField.setText(task.getName());
+        taskDescriptionTextField.setText(task.getDescription() == null ? "" : task.getDescription());
+
+        if (task.getCategory() != null && !task.getCategory().isBlank()
+                && !taskCategoryComboBox.getItems().contains(task.getCategory())) {
+            taskCategoryComboBox.getItems().add(task.getCategory());
+        }
+        taskCategoryComboBox.setValue(task.getCategory());
+
+        if (task.getPriority() != null
+                && !taskPriorityComboBox.getItems().contains(task.getPriority())) {
+            taskPriorityComboBox.getItems().add(task.getPriority());
+        }
+        taskPriorityComboBox.setValue(task.getPriority());
+
+        taskDueDateDatePicker.setValue(task.getDueDate());
     }
 
     @FXML
@@ -67,8 +98,16 @@ public class TaskFormController {
             return;
         }
 
-        Task task = new Task(taskName, taskDescriptionTextField.getText(), taskCategory, taskPriority, taskDueDate, false);
-        tasks.add(task);
+        if (taskToEdit != null) {
+            taskToEdit.setName(taskName);
+            taskToEdit.setDescription(taskDescriptionTextField.getText());
+            taskToEdit.setCategory(taskCategory);
+            taskToEdit.setPriority(taskPriority);
+            taskToEdit.setDueDate(taskDueDate);
+        } else {
+            Task task = new Task(taskName, taskDescriptionTextField.getText(), taskCategory, taskPriority, taskDueDate, false);
+            tasks.add(task);
+        }
 
         TaskStore.save(tasks);
 

@@ -1,23 +1,32 @@
 package com.example.smarttodoapp.model;
 
+import com.example.smarttodoapp.TaskFormController;
+import com.example.smarttodoapp.TaskInfoController;
 import com.example.smarttodoapp.data.TaskStore;
-import com.example.smarttodoapp.model.Task;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.io.IOException;
 
 public class TaskListCell extends ListCell<Task> {
 
@@ -33,9 +42,16 @@ public class TaskListCell extends ListCell<Task> {
     private final Label metaLabel = new Label();
     private final Region spacer = new Region();
     private final HBox actionBox = new HBox(6);
-    private final Button notesButton = new Button("\uD83D\uDCCB");
-    private final Button infoButton = new Button("\u2139");
-    private final Button deleteButton = new Button("\uD83D\uDDD1");
+    private static final Image INFO_ICON = new Image(
+            TaskListCell.class.getResource("/images/info.png").toExternalForm());
+    private static final Image EDIT_ICON = new Image(
+            TaskListCell.class.getResource("/images/edit.png").toExternalForm());
+    private static final Image DELETE_ICON = new Image(
+            TaskListCell.class.getResource("/images/delete.png").toExternalForm());
+
+    private final Button infoButton = new Button();
+    private final Button editButton = new Button();
+    private final Button deleteButton = new Button();
 
     public TaskListCell(ObservableList<Task> tasks) {
         this.tasks = tasks;
@@ -61,19 +77,27 @@ public class TaskListCell extends ListCell<Task> {
         actionBox.getStyleClass().add("task-actions");
         actionBox.setAlignment(Pos.CENTER);
 
-        notesButton.getStyleClass().add("task-action-button");
         infoButton.getStyleClass().add("task-action-button");
+        editButton.getStyleClass().add("task-action-button");
         deleteButton.getStyleClass().addAll("task-action-button", "task-delete-button");
 
-        notesButton.setFocusTraversable(false);
+        infoButton.setGraphic(createIconView(INFO_ICON));
+        editButton.setGraphic(createIconView(EDIT_ICON));
+        deleteButton.setGraphic(createIconView(DELETE_ICON));
+
+        infoButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        editButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        deleteButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+
         infoButton.setFocusTraversable(false);
+        editButton.setFocusTraversable(false);
         deleteButton.setFocusTraversable(false);
 
-        notesButton.setTooltip(new Tooltip("Show description"));
         infoButton.setTooltip(new Tooltip("Task details"));
+        editButton.setTooltip(new Tooltip("Edit task"));
         deleteButton.setTooltip(new Tooltip("Delete task"));
 
-        actionBox.getChildren().addAll(notesButton, infoButton, deleteButton);
+        actionBox.getChildren().addAll(infoButton, editButton, deleteButton);
 
         HBox.setHgrow(spacer, Priority.ALWAYS);
         HBox.setHgrow(card, Priority.ALWAYS);
@@ -111,38 +135,15 @@ public class TaskListCell extends ListCell<Task> {
             if (item == null) {
                 return;
             }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Task Details");
-            alert.setHeaderText(item.getName());
-            StringBuilder content = new StringBuilder();
-            if (item.getDescription() != null && !item.getDescription().isBlank()) {
-                content.append(item.getDescription()).append("\n\n");
-            }
-            content.append("Category: ")
-                    .append(Optional.ofNullable(item.getCategory()).filter(s -> !s.isBlank()).orElse("None"));
-            content.append("\nPriority: ")
-                    .append(Optional.ofNullable(item.getPriority()).map(Object::toString).orElse("None"));
-            if (item.getDueDate() != null) {
-                content.append("\nDue Date: ").append(DATE_FORMATTER.format(item.getDueDate()));
-            }
-            alert.setContentText(content.toString());
-            alert.showAndWait();
+            openTaskInfoDialog(item);
         });
 
-        notesButton.setOnAction(e -> {
+        editButton.setOnAction(e -> {
             Task item = getItem();
             if (item == null) {
                 return;
             }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Task Notes");
-            alert.setHeaderText(item.getName());
-            String description = item.getDescription();
-            if (description == null || description.isBlank()) {
-                description = "No additional notes.";
-            }
-            alert.setContentText(description);
-            alert.showAndWait();
+            openTaskFormDialog(item);
         });
     }
 
@@ -187,5 +188,84 @@ public class TaskListCell extends ListCell<Task> {
             completeButton.getStyleClass().remove("completed");
             card.getStyleClass().remove("completed");
         }
+    }
+
+    private ImageView createIconView(Image image) {
+        ImageView view = new ImageView(image);
+        view.setFitWidth(18);
+        view.setFitHeight(18);
+        view.setPreserveRatio(true);
+        return view;
+    }
+
+    private void openTaskInfoDialog(Task task) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/smarttodoapp/TaskInfoDialog.fxml"));
+            Parent root = loader.load();
+            TaskInfoController controller = loader.getController();
+
+            Stage dialog = createDialogStage(root, "Task Details");
+            controller.setDialogStage(dialog);
+            controller.setTasks(tasks);
+            controller.setTask(task);
+            controller.setOnTaskUpdated(() -> {
+                if (getListView() != null) {
+                    getListView().refresh();
+                } else {
+                    updatePriorityStyle(task);
+                    updateCompletionState(task);
+                }
+            });
+
+            dialog.showAndWait();
+        } catch (IOException ex) {
+            showError("Unable to display task details.", ex);
+        }
+    }
+
+    private void openTaskFormDialog(Task task) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/smarttodoapp/TaskFormDialog.fxml"));
+            Parent root = loader.load();
+            TaskFormController controller = loader.getController();
+            controller.setTasks(tasks);
+            controller.setTaskToEdit(task);
+
+            Stage dialog = createDialogStage(root, "Edit Task");
+            dialog.showAndWait();
+
+            if (getListView() != null) {
+                getListView().refresh();
+            }
+        } catch (IOException ex) {
+            showError("Unable to open the task form.", ex);
+        }
+    }
+
+    private Stage createDialogStage(Parent root, String title) {
+        Stage dialog = new Stage();
+        Stage owner = getOwnerStage();
+        if (owner != null) {
+            dialog.initOwner(owner);
+        }
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle(title);
+        dialog.setScene(new Scene(root));
+        return dialog;
+    }
+
+    private Stage getOwnerStage() {
+        if (getListView() != null && getListView().getScene() != null) {
+            return (Stage) getListView().getScene().getWindow();
+        }
+        return null;
+    }
+
+    private void showError(String message, Exception ex) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(message);
+        alert.setContentText(ex.getMessage());
+        alert.showAndWait();
     }
 }

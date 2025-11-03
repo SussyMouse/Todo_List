@@ -45,7 +45,7 @@
             <Insets />
          </VBox.margin>
       </MenuBar>
-       <Label text="Add Task" textFill="WHITE">
+       <Label fx:id="formTitleLabel" text="Add Task" textFill="WHITE">
          <font>
             <Font name="Segoe UI Black" size="44.0" />
          </font>
