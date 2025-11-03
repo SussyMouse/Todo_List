@@ -25,6 +25,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.io.IOException;
@@ -190,15 +191,32 @@ public class TaskListCell extends ListCell<Task> {
     }
 
     private void updateCompletionState(Task task) {
+        boolean overdue = isOverdue(task);
+
+        completeButton.getStyleClass().removeAll("completed", "overdue");
+        card.getStyleClass().remove("completed");
+
         if (task.isCompleted()) {
             completeButton.setText("Completed");
+            completeButton.setDisable(false);
             completeButton.getStyleClass().add("completed");
             card.getStyleClass().add("completed");
+        } else if (overdue) {
+            completeButton.setText("Overdue");
+            completeButton.setDisable(true);
+            completeButton.getStyleClass().add("overdue");
         } else {
             completeButton.setText("Mark as Completed");
-            completeButton.getStyleClass().remove("completed");
-            card.getStyleClass().remove("completed");
+            completeButton.setDisable(false);
         }
+    }
+
+    private boolean isOverdue(Task task) {
+        LocalDate dueDate = task.getDueDate();
+        if (dueDate == null) {
+            return false;
+        }
+        return !task.isCompleted() && dueDate.isBefore(LocalDate.now());
     }
 
     private void updateCategoryIcon(Task task) {

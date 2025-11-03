@@ -17,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -98,6 +99,10 @@ public class TaskInfoController {
             return;
         }
 
+        if (isOverdue(task)) {
+            return;
+        }
+
         task.setCompleted(!task.isCompleted());
         TaskStore.save(tasks);
         refreshTaskDetails();
@@ -127,7 +132,16 @@ public class TaskInfoController {
         taskDueDateLabel.setText(task.getDueDate() != null ? DATE_FORMATTER.format(task.getDueDate()) : "No due date");
         taskStatusLabel.setText(task.isCompleted() ? "Completed" : "Active");
 
-        markCompleteButton.setText(task.isCompleted() ? "Mark as Incomplete" : "Mark as Completed");
+        boolean overdue = isOverdue(task);
+
+        if (overdue) {
+            markCompleteButton.setVisible(false);
+            markCompleteButton.setManaged(false);
+        } else {
+            markCompleteButton.setVisible(true);
+            markCompleteButton.setManaged(true);
+            markCompleteButton.setText(task.isCompleted() ? "Mark as Incomplete" : "Mark as Completed");
+        }
     }
 
     private void updateCategoryIcon(String category) {
@@ -149,6 +163,14 @@ public class TaskInfoController {
         if (onTaskUpdated != null) {
             onTaskUpdated.run();
         }
+    }
+
+    private boolean isOverdue(Task task) {
+        LocalDate dueDate = task.getDueDate();
+        if (dueDate == null) {
+            return false;
+        }
+        return !task.isCompleted() && dueDate.isBefore(LocalDate.now());
     }
 
     private void showError(String message, Exception ex) {

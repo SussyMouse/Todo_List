@@ -38,6 +38,15 @@
     -fx-text-fill: white;
 }
 
+.mark-complete-button.overdue {
+    -fx-background-color: linear-gradient(to right, #ff6b6b, #ff9f9f);
+    -fx-text-fill: #4a0000;
+}
+
+.mark-complete-button:disabled {
+    -fx-opacity: 1.0;
+}
+
 .task-card {
     -fx-background-color: linear-gradient(to right, #ff5b5b, #ff7f7f);
     -fx-background-radius: 40;
