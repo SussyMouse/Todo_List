@@ -16,6 +16,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Priority?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
@@ -158,19 +159,7 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #a6a6a6, #ffffff); -fx-background-radius: 20;" text="Mark as Completed" translateY="35.0">
-                     <font>
-                        <Font name="Segoe UI" size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="50.0" right="200.0" />
-                     </HBox.margin>
-                  </Button>
-                  <ListView prefHeight="200.0" prefWidth="200.0" style="-fx-pref-width: 580; -fx-pref-height: 400;" />
-               </children>
-            </HBox>
+             <ListView fx:id="taskListView" prefHeight="200.0" prefWidth="200.0" styleClass="task-list" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </center>

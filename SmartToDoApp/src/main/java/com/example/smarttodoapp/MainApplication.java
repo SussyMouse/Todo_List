@@ -7,12 +7,14 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("MainWindow.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 800);
+        scene.getStylesheets().add(Objects.requireNonNull(MainApplication.class.getResource("styles.css")).toExternalForm());
         stage.setTitle("Smart To Do Application");
         try {
             InputStream iconStream = getClass().getResourceAsStream("/images/icon.png");
