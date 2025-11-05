@@ -35,6 +35,7 @@ public class TaskListCell extends ListCell<Task> {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     private final ObservableList<Task> tasks;
+    private final Runnable onTasksChanged;
 
     private final HBox root = new HBox(20);
     private final Button completeButton = new Button("Mark as Completed");
@@ -56,8 +57,9 @@ public class TaskListCell extends ListCell<Task> {
     private final Button editButton = new Button();
     private final Button deleteButton = new Button();
 
-    public TaskListCell(ObservableList<Task> tasks) {
+    public TaskListCell(ObservableList<Task> tasks, Runnable onTasksChanged) {
         this.tasks = tasks;
+        this.onTasksChanged = onTasksChanged;
 
         getStyleClass().add("task-list-cell");
 
@@ -130,6 +132,7 @@ public class TaskListCell extends ListCell<Task> {
             if (getListView() != null) {
                 getListView().refresh();
             }
+            notifyTasksChanged();
         });
 
         deleteButton.setOnAction(e -> {
@@ -139,6 +142,7 @@ public class TaskListCell extends ListCell<Task> {
             }
             tasks.remove(item);
             TaskStore.save(tasks);
+            notifyTasksChanged();
         });
 
         infoButton.setOnAction(e -> {
@@ -257,6 +261,7 @@ public class TaskListCell extends ListCell<Task> {
                     updatePriorityStyle(task);
                     updateCompletionState(task);
                 }
+                notifyTasksChanged();
             });
 
             dialog.showAndWait();
@@ -272,13 +277,16 @@ public class TaskListCell extends ListCell<Task> {
             TaskFormController controller = loader.getController();
             controller.setTasks(tasks);
             controller.setTaskToEdit(task);
+            controller.setOnTasksChanged(() -> {
+                if (getListView() != null) {
+                    getListView().refresh();
+                }
+                notifyTasksChanged();
+            });
 
             Stage dialog = createDialogStage(root, "Edit Task");
             dialog.showAndWait();
 
-            if (getListView() != null) {
-                getListView().refresh();
-            }
         } catch (IOException ex) {
             showError("Unable to open the task form.", ex);
         }
@@ -309,5 +317,11 @@ public class TaskListCell extends ListCell<Task> {
         alert.setHeaderText(message);
         alert.setContentText(ex.getMessage());
         alert.showAndWait();
+    }
+
+    private void notifyTasksChanged() {
+        if (onTasksChanged != null) {
+            onTasksChanged.run();
+        }
     }
 }

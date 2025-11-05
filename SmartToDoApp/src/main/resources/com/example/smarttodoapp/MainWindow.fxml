@@ -68,15 +68,15 @@
                   <Insets left="40.0" />
                </VBox.margin>
             </Label>
-            <ComboBox prefWidth="150.0" promptText="Category" style="-fx-pref-width: 180; -fx-background-radius: 5;">
+             <ComboBox fx:id="categoryFilterComboBox" prefWidth="150.0" promptText="Category" style="-fx-pref-width: 180; -fx-background-radius: 5;">
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin></ComboBox>
-            <ComboBox prefWidth="150.0" promptText="Priority" style="-fx-pref-width: 180; -fx-background-radius: 5;">
+             <ComboBox fx:id="priorityFilterComboBox" prefWidth="150.0" promptText="Priority" style="-fx-pref-width: 180; -fx-background-radius: 5;">
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin></ComboBox>
-            <DatePicker style="-fx-pref-width: 180; -fx-background-radius: 5;">
+             <DatePicker fx:id="dueDateFilterDatePicker" style="-fx-pref-width: 180; -fx-background-radius: 5;">
                <VBox.margin>
                   <Insets left="40.0" />
                </VBox.margin></DatePicker>
@@ -152,7 +152,7 @@
                         <Image url="@../../../images/search.png" />
                      </image>
                   </ImageView>
-                  <TextField promptText="Search" style="-fx-background-radius: 5;">
+                   <TextField fx:id="searchTextField" promptText="Search" style="-fx-background-radius: 5;">
                      <font>
                         <Font name="Segoe UI" size="20.0" />
                      </font>

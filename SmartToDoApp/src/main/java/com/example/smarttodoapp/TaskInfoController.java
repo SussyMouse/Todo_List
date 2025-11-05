@@ -76,6 +76,10 @@ public class TaskInfoController {
             TaskFormController controller = loader.getController();
             controller.setTasks(tasks);
             controller.setTaskToEdit(task);
+            controller.setOnTasksChanged(() -> {
+                refreshTaskDetails();
+                notifyTaskUpdated();
+            });
 
             Stage editStage = new Stage();
             if (dialogStage != null) {

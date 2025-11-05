@@ -37,6 +37,7 @@ public class TaskFormController {
 
     private ObservableList<Task> tasks;
     private Task taskToEdit;
+    private Runnable onTasksChanged;
 
     public void setTasks(ObservableList<Task> tasks) {
         this.tasks = tasks;
@@ -67,6 +68,10 @@ public class TaskFormController {
         taskPriorityComboBox.setValue(task.getPriority());
 
         taskDueDateDatePicker.setValue(task.getDueDate());
+    }
+
+    public void setOnTasksChanged(Runnable onTasksChanged) {
+        this.onTasksChanged = onTasksChanged;
     }
 
     @FXML
@@ -110,6 +115,10 @@ public class TaskFormController {
         }
 
         TaskStore.save(tasks);
+
+        if (onTasksChanged != null) {
+            onTasksChanged.run();
+        }
 
         closeWindow();
 
